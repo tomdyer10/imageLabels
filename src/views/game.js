@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import Picker from "./../components/picker";
+import Picker from "../components/picker";
 import { Layout, Button } from "antd";
+import Media from "react-media";
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider, Content, Footer } = Layout;
 
 const headerStyle = {
   background: "none",
@@ -14,6 +15,12 @@ const siderStyle = {
   background: "none",
   right: "25px",
   position: "absolute"
+};
+
+const layoutStyle = {
+  overflowY: "auto",
+  margin: "0 auto",
+  minHeight: "100vh"
 };
 
 const Game = ({ complete }) => {
@@ -99,50 +106,103 @@ const Game = ({ complete }) => {
   }
 
   return (
-    <Layout>
-      <Header style={headerStyle}>{pictureNumber}/10</Header>
-
-      <Content>
-        {loading ? (
-          <div
-            style={{
-              height: "300px",
-              width: "300px",
-              textAlign: "center",
-              display: "block",
-              marginLeft: "auto",
-              marginRight: "auto"
-            }}
-          >
-            Loading Image
-          </div>
+    <Media query="(max-width: 599px)">
+      {matches =>
+        matches ? (
+          //   mobile view
+          <Layout style={layoutStyle}>
+            <Header style={headerStyle}>{pictureNumber}/10</Header>
+            <Content>
+              <div style={{ minHeight: "200px" }}>
+                {loading ? (
+                  <div
+                    style={{
+                      height: "200px",
+                      width: "300px",
+                      textAlign: "center",
+                      display: "block",
+                      marginLeft: "auto",
+                      marginRight: "auto"
+                    }}
+                  >
+                    Loading Image
+                  </div>
+                ) : (
+                  <img
+                    src={pictureURL}
+                    style={{
+                      height: "auto",
+                      width: "80%"
+                    }}
+                  />
+                )}
+              </div>
+              <Picker handleClick={handleClick} selectedTags={selectedTags} />
+            </Content>
+            <Footer>
+              <Button
+                onClick={nextPicture}
+                style={{
+                  background: "#008578",
+                  width: "100%",
+                  color: "white",
+                  border: "none"
+                }}
+              >
+                {pictureNumber < 10 ? "NEXT" : "FINISH"}
+              </Button>
+            </Footer>
+          </Layout>
         ) : (
-          <img
-            src={pictureURL}
-            style={{
-              height: "300px",
-              width: "auto"
-            }}
-          />
-        )}
-        <Picker handleClick={handleClick} selectedTags={selectedTags} />
-      </Content>
-      <Layout>
-        <Sider style={siderStyle}>
-          <Button
-            onClick={nextPicture}
-            style={{
-              background: "#AF231C",
-              width: "150px",
-              color: "white",
-              border: "none"
-            }}
-          >
-            {pictureNumber < 10 ? "NEXT" : "FINISH"}
-          </Button>
-        </Sider>
-      </Layout>
-    </Layout>
+          //   desktop view
+          <Layout style={layoutStyle}>
+            <Header style={headerStyle}>{pictureNumber}/10</Header>
+            <Content>
+              <div style={{ minHeight: "400px" }}>
+                {loading ? (
+                  <div
+                    style={{
+                      height: "300px",
+                      width: "300px",
+                      textAlign: "center",
+                      display: "block",
+                      marginLeft: "auto",
+                      marginRight: "auto"
+                    }}
+                  >
+                    Loading Image
+                  </div>
+                ) : (
+                  <img
+                    src={pictureURL}
+                    style={{
+                      height: "400px",
+                      width: "auto "
+                    }}
+                  />
+                )}
+              </div>
+              <Picker handleClick={handleClick} selectedTags={selectedTags} />
+            </Content>
+            <Layout>
+              <Sider style={siderStyle}>
+                <Button
+                  onClick={nextPicture}
+                  style={{
+                    background: "#008578",
+                    width: "150px",
+                    color: "white",
+                    border: "none"
+                  }}
+                >
+                  {pictureNumber < 10 ? "NEXT" : "FINISH"}
+                </Button>
+              </Sider>
+            </Layout>
+          </Layout>
+        )
+      }
+    </Media>
   );
 };
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col, Layout, Button } from "antd";
 import { tags } from "./../constants/tags";
+import Media from "react-media";
 
 const Picker = ({ handleClick, selectedTags }) => {
   return (
@@ -9,21 +10,43 @@ const Picker = ({ handleClick, selectedTags }) => {
         {tags.map(tag => {
           const isSelected = selectedTags.includes(tag);
           return (
-            <Col span={4} key={tag}>
-              <Button
-                onClick={() => handleClick(tag)}
-                style={{
-                  color: "#1e1e1d",
-                  width: "100%",
-                  margin: "5px",
-                  fontSize: "16px",
-                  border: "#af231c",
-                  background: isSelected ? "#d7918e" : "#fff"
-                }}
-              >
-                {tag}
-              </Button>
-            </Col>
+            <Media query="(max-width: 599px)">
+              {matches =>
+                matches ? (
+                  <Col span={8} key={tag}>
+                    <Button
+                      onClick={() => handleClick(tag)}
+                      style={{
+                        color: "#1e1e1d",
+                        width: "90%",
+                        margin: "10px",
+                        fontSize: "16px",
+                        border: "#008578",
+                        background: isSelected ? "#80c2bc" : "#fff"
+                      }}
+                    >
+                      {tag}
+                    </Button>
+                  </Col>
+                ) : (
+                  <Col span={4} key={tag}>
+                    <Button
+                      onClick={() => handleClick(tag)}
+                      style={{
+                        color: "#1e1e1d",
+                        width: "100%",
+                        margin: "5px",
+                        fontSize: "16px",
+                        border: "#008578",
+                        background: isSelected ? "#80c2bc" : "#fff"
+                      }}
+                    >
+                      {tag}
+                    </Button>
+                  </Col>
+                )
+              }
+            </Media>
           );
         })}
       </Row>

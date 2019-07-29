@@ -13,6 +13,7 @@
     "psql": "0.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-media": "^1.9.2",
     "react-scripts": "3.0.1",
     "request": "^2.88.0"
   },
